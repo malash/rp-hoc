@@ -31,7 +31,11 @@ const config = {
       ],
       plugins: ['external-helpers'],
     }),
-    commonjs(),
+    commonjs({
+      namedExports: {
+        'node_modules/react-is/index.js': ['isElement', 'isValidElementType'],
+      },
+    }),
     filesize(),
   ],
   output: {
@@ -39,6 +43,9 @@ const config = {
     file: `dist/${name}.${target}.${isProd ? 'min.js' : 'js'}`,
     name: 'RpHoc',
     format: target,
+    globals: {
+      react: 'React',
+    },
   },
 };
 
