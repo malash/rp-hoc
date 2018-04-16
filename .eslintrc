@@ -1,0 +1,48 @@
+{
+  "root": true,
+  "extends": "airbnb",
+  "env": {
+      "browser": true,
+      "node": true
+  },
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": false }],
+    "consistent-return": ["off"],
+    "prefer-rest-params": ["off"],
+    "no-else-return": ["off"],
+    "no-param-reassign": ["off"],
+    "no-restricted-syntax": ["off"],
+    "no-underscore-dangle": ["off", { "allowAfterThis": true, "allowAfterSuper": true }],
+    "no-restricted-globals": ["off"],
+    "guard-for-in": ["off"],
+    "react/jsx-filename-extension": ["off"],
+    "import/prefer-default-export": ["off"],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "benchmark/**", // benchmark
+        "test/**", // tape, common npm pattern
+        "tests/**", // also common npm pattern
+        "spec/**", // mocha, rspec-like pattern
+        "**/__tests__/**", // jest pattern
+        "test.js", // repos with a single test file
+        "test-*.js", // repos with multiple top-level test files
+        "**/*.test.js", // tests where the extension denotes that it is a test
+        "**/*.spec.js", // tests where the extension denotes that it is a test
+        "**/webpack.config.js", // webpack config
+        "**/webpack.config.*.js", // webpack config
+        "**/rollup.config.js", // rollup config
+        "**/rollup.config.*.js", // rollup config
+        "**/gulpfile.js", // gulp config
+        "**/gulpfile.*.js", // gulp config
+        "**/Gruntfile" // grunt config
+      ],
+      "optionalDependencies": false
+    }]
+  }
+}
