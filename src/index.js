@@ -1,29 +1,46 @@
 
-import React, { Component, cloneElement } from 'react';
+import React, { Component, cloneElement, createElement } from 'react';
+import { isElement, isValidElementType } from 'react-is';
 
-export const withRP = (RPElement, {
-  renderKey = 'children',
-  multiArgs = null,
-} = {}) => ChildComp => {
+const getType = x => {
+  if (isElement(x)) {
+    return 'element';
+  } else if (isValidElementType(x)) {
+    return 'component';
+  } else {
+    throw new TypeError('the first argument of `withRP` must be React component or element');
+  }
+};
+
+export const withRP = (rp, props, options) => ChildComp => {
+  const type = getType(rp);
+  if (type === 'element') {
+    options = props;
+  }
+  const {
+    renderKey = 'children',
+    multiArgs = null,
+  } = options || {};
   class WithRP extends Component {
     renderCallback = multiArgs === null ?
       newProps => (
         <ChildComp {...this.props} {...newProps} />
       )
       :
-      (...args) => (
-        <ChildComp {...this.props} {...{ [multiArgs]: args }} />
+      (...newProps) => (
+        <ChildComp {...this.props} {...{ [multiArgs]: newProps }} />
       );
     render() {
-      let element = RPElement;
-      if (typeof RPElement === 'function') {
-        element = RPElement(this.props);
-      }
-      return (
-        cloneElement(element, {
+      if (type === 'element') {
+        return cloneElement(rp, {
           [renderKey]: this.renderCallback,
-        })
-      );
+        });
+      } else if (type === 'component') {
+        return createElement(rp, {
+          ...props,
+          [renderKey]: this.renderCallback,
+        });
+      }
     }
   }
   WithRP.displayName = `WithRP_${ChildComp.name || ChildComp.displayName}`;
@@ -32,6 +49,6 @@ export const withRP = (RPElement, {
 
 export const toRP = (decorator, { renderKey = 'children' } = {}) => {
   const ToRP = ({ [renderKey]: children, ...props }) => children(props);
-  // ToRP.name = `toRP_${decorator.name}`;
+  ToRP.displayName = `toRP_${decorator.name}`;
   return decorator(ToRP);
 };

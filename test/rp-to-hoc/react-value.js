@@ -30,9 +30,7 @@ test('original Render Props works', t => {
 
 test('convert Render Props to HOC', t => {
   const WithValue = withRP(
-    <Value
-      defaultValue="Malash"
-    />,
+    <Value defaultValue="Malash" />,
     {
       renderKey: 'render',
       multiArgs: 'args',

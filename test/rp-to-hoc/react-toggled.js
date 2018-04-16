@@ -31,7 +31,7 @@ test('original Render Props works', t => {
 });
 
 test('convert Render Props to HOC', t => {
-  const WithToggle = withRP(<Toggle defaultOn />);
+  const WithToggle = withRP(Toggle, { defaultOn: true });
   @WithToggle
   class App extends Component {
     render() {
