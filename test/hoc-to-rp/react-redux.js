@@ -69,6 +69,31 @@ test('convert HOC to Render Props', t => {
     connect(
       mapStateToProps,
       mapDispatchToProps,
+    ),
+  );
+  const App = () => (
+    <Connect>
+      {({ counter, inc, dec }) => (
+        <div>
+          <div id="counter">{counter}</div>
+          <button id="inc" onClick={() => inc()}>Increment</button>
+          <button id="dec" onClick={() => dec()}>Decrement</button>
+        </div>
+      )}
+    </Connect>
+  );
+  check(t, mount(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  ));
+});
+
+test('use renderKey', t => {
+  const Connect = toRP(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps,
     ), {
       renderKey: 'myRender',
     },
@@ -89,4 +114,82 @@ test('convert HOC to Render Props', t => {
       <App />
     </Provider>,
   ));
+});
+
+test('use Component', t => {
+  const Connect = toRP(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps,
+    ), {
+      useComponent: true,
+    },
+  );
+  t.truthy(Connect.prototype.isReactComponent);
+  const App = () => (
+    <Connect>
+      {({ counter, inc, dec }) => (
+        <div>
+          <div id="counter">{counter}</div>
+          <button id="inc" onClick={() => inc()}>Increment</button>
+          <button id="dec" onClick={() => dec()}>Decrement</button>
+        </div>
+      )}
+    </Connect>
+  );
+  const wrapper = mount(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  );
+  const toRPComponent = wrapper.childAt(0).childAt(0).childAt(0).get(0).type;
+  t.true(toRPComponent.displayName.indexOf('ToRP_') === 0);
+  t.truthy(toRPComponent.prototype.isReactComponent);
+  check(t, wrapper);
+});
+
+test('use PureComponent', t => {
+  const Connect = toRP(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps,
+    ), {
+      usePureComponent: true,
+    },
+  );
+  t.truthy(Connect.prototype.isReactComponent);
+  const App = () => (
+    <Connect>
+      {({ counter, inc, dec }) => (
+        <div>
+          <div id="counter">{counter}</div>
+          <button id="inc" onClick={() => inc()}>Increment</button>
+          <button id="dec" onClick={() => dec()}>Decrement</button>
+        </div>
+      )}
+    </Connect>
+  );
+  const wrapper = mount(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+  );
+  const toRPComponent = wrapper.childAt(0).childAt(0).childAt(0).get(0).type;
+  t.true(toRPComponent.displayName.indexOf('ToRP_') === 0);
+  t.truthy(toRPComponent.prototype.isPureReactComponent);
+  check(t, wrapper);
+});
+
+test('use Component and PureComponent', t => {
+  t.throws(() => {
+    toRP(
+      connect(
+        mapStateToProps,
+        mapDispatchToProps,
+      ), {
+        useComponent: true,
+        usePureComponent: true,
+      },
+    );
+  });
 });
