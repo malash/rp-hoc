@@ -25,7 +25,7 @@ const config = {
       exclude: 'node_modules/**',
       // .babelrc
       presets: [
-        "react",
+        'react',
         ['es2015', { modules: false }],
         'stage-0',
       ],
