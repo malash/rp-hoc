@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Toggle from 'react-toggled';
+import sinon from 'sinon';
 import '../helpers/setup-test-env';
 import { withRP } from '../../src';
 
@@ -45,4 +46,29 @@ test('convert Render Props to HOC', t => {
     }
   }
   check(t, mount(<App />));
+});
+
+test('convert Render Props to HOC with warning', t => {
+  sinon.stub(console, 'error');
+
+  const WithToggle = withRP(<Toggle defaultOn />);
+  @WithToggle
+  class App extends Component {
+    render() {
+      const { on, getTogglerProps } = this.props;
+      return (
+        <div>
+          <button {...getTogglerProps()}>Toggle me</button>
+          <div id="result">{on ? 'Toggled On' : 'Toggled Off'}</div>
+        </div>
+      );
+    }
+  }
+  check(t, mount(<App />));
+
+  /* eslint-disable no-console */
+  t.true(console.error.calledOnce);
+  t.true(console.error.calledWithMatch(e => e.toString().indexOf('The prop `children` is marked as required') !== -1));
+  console.error.restore();
+  /* eslint-enable no-console */
 });
