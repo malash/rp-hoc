@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/malash/rp-hoc#readme",
   "devDependencies": {
+    "@noflux/react": "^0.8.1",
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",

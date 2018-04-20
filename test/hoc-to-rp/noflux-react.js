@@ -3,12 +3,12 @@ import '../helpers/setup-test-env';
 import React, { Component } from 'react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { withState } from 'recompose';
+import { connect, state } from '@noflux/react';
 import { toRP } from '../../src';
 
 configure({ adapter: new Adapter() });
 
-const enhance = withState('counter', 'setCounter', 0);
+const counter = state.cursor('counter');
 
 const check = (t, wrapper) => {
   t.is(wrapper.find('#counter').text(), '0');
@@ -21,15 +21,16 @@ const check = (t, wrapper) => {
 };
 
 test('original HOC works', t => {
-  @enhance
+  counter.set(0);
+  @connect
   class App extends Component {
     render() {
-      const { counter, setCounter } = this.props;
+      console.log('render', counter.get());
       return (
         <div>
-          <div id="counter">{counter}</div>
-          <button id="inc" onClick={() => setCounter(n => n + 1)}>Increment</button>
-          <button id="dec" onClick={() => setCounter(n => n - 1)}>Decrement</button>
+          <div id="counter">{counter.get()}</div>
+          <button id="inc" onClick={() => counter.set(counter.get() + 1)}>Increment</button>
+          <button id="dec" onClick={() => counter.set(counter.get() - 1)}>Decrement</button>
         </div>
       );
     }
@@ -38,17 +39,18 @@ test('original HOC works', t => {
 });
 
 test('convert HOC to Render Props', t => {
-  const Counter = toRP(enhance);
+  counter.set(0);
+  const Connect = toRP(connect, { useComponent: true });
   const App = () => (
-    <Counter>
-      {({ counter, setCounter }) => (
+    <Connect>
+      {() => (
         <div>
-          <div id="counter">{counter}</div>
-          <button id="inc" onClick={() => setCounter(n => n + 1)}>Increment</button>
-          <button id="dec" onClick={() => setCounter(n => n - 1)}>Decrement</button>
+          <div id="counter">{counter.get()}</div>
+          <button id="inc" onClick={() => counter.set(counter.get() + 1)}>Increment</button>
+          <button id="dec" onClick={() => counter.set(counter.get() - 1)}>Decrement</button>
         </div>
       )}
-    </Counter>
+    </Connect>
   );
   check(t, mount(<App />));
 });

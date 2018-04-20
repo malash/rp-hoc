@@ -1,10 +1,10 @@
 import test from 'ava';
+import '../helpers/setup-test-env';
 import React, { Component } from 'react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
-import '../helpers/setup-test-env';
 import { toRP } from '../../src';
 
 configure({ adapter: new Adapter() });

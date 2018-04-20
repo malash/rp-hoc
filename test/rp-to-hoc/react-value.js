@@ -1,9 +1,9 @@
 import test from 'ava';
+import '../helpers/setup-test-env';
 import React, { Component } from 'react';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { Value } from 'react-value';
-import '../helpers/setup-test-env';
 import { withRP } from '../../src';
 
 configure({ adapter: new Adapter() });
