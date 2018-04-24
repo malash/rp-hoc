@@ -48,6 +48,18 @@ test('convert Render Props to HOC', t => {
   check(t, mount(<App />));
 });
 
+test('use with stateless component', t => {
+  const App = ({ on, getTogglerProps }) => (
+    <div>
+      <button {...getTogglerProps()}>Toggle me</button>
+      <div id="result">{on ? 'Toggled On' : 'Toggled Off'}</div>
+    </div>
+  );
+  const WithToggle = withRP(Toggle, { defaultOn: true });
+  const AppWithToggle = WithToggle(App);
+  check(t, mount(<AppWithToggle />));
+});
+
 test('convert Render Props to HOC with warning', t => {
   sinon.stub(console, 'error');
 

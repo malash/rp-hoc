@@ -152,6 +152,21 @@ const App = () => (
 Use heigher-order component:
 
 ```javascript
+const App = ({ on, getTogglerProps }) => (
+  <div>
+    <button {...getTogglerProps()}>Toggle me</button>
+    <div id="result">{on ? 'Toggled On' : 'Toggled Off'}</div>
+  </div>
+);
+
+const WithToggle = withRP(<Toggle defaultOn />);
+
+const AppWithToggle = WithToggle(App);
+```
+
+Also support `decorator`:
+
+```javascript
 const WithToggle = withRP(<Toggle defaultOn />);
 
 @WithToggle
