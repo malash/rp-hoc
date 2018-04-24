@@ -71,7 +71,7 @@ class App extends Component {
 }
 ```
 
-Use render-props component:
+Convert to render-props component:
 
 ```javascript
 const Connect = toRP(
@@ -149,7 +149,7 @@ const App = () => (
 );
 ```
 
-Use heigher-order component:
+Convert to heigher-order component:
 
 ```javascript
 const App = ({ on, getTogglerProps }) => (
