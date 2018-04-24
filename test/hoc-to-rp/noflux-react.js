@@ -25,7 +25,6 @@ test('original HOC works', t => {
   @connect
   class App extends Component {
     render() {
-      console.log('render', counter.get());
       return (
         <div>
           <div id="counter">{counter.get()}</div>
