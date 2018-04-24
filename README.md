@@ -1,4 +1,10 @@
-# Convert between Render Props and HOC
+# rp-hoc
+
+Convert between Render Props and HOC
+
+| Package | Version | Dependencies | DevDependencies | Build |
+|--------|-------|------------|----------|----------|
+| `rp-hoc` | [![npm (scoped)](https://img.shields.io/npm/v/rp-hoc.svg?maxAge=86400)](https://www.npmjs.com/package/rp-hoc) | [![Dependency Status](https://david-dm.org/malash/rp-hoc.svg)](https://david-dm.org/malash/rp-hoc) | [![devDependency Status](https://david-dm.org/malash/rp-hoc/dev-status.svg)](https://david-dm.org/malash/rp-hoc?type=dev) | [![Build Status](https://travis-ci.org/malash/rp-hoc.svg?branch=next)](https://travis-ci.org/malash/rp-hoc) |
 
 ## Install
 
